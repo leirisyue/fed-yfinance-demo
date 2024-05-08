@@ -10,14 +10,15 @@ from functools import reduce
 import sklearn.metrics
 
 import flwr as fl
-from dataset import prepare_dataset
+from test.dataset import prepare_dataset
 
 def get_data(split="all"):
     
     # x, y = sklearn.datasets.load_iris(return_X_y=True)
-    # x, y = sklearn.datasets.load_digits(return_X_y=True)
-    
-    x, y = prepare_dataset()
+    x, y = sklearn.datasets.load_digits(return_X_y=True)
+    print(x)
+    print(y)
+    X, Y = prepare_dataset()
 
     np.random.seed(42); np.random.shuffle(x)
     np.random.seed(42); np.random.shuffle(y)

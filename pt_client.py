@@ -10,17 +10,19 @@ import torch
 import torch.nn as nn
 
 from functools import reduce
+from regression import prepare_dataset
 
 import flwr as fl
 
 def get_data(split="all"):
     
-    x, y = sklearn.datasets.load_iris(return_X_y=True)
+    # x, y = sklearn.datasets.load_iris(return_X_y=True)
     #x, y = sklearn.datasets.load_digits(return_X_y=True)
 
-    np.random.seed(42); np.random.shuffle(x)
-    np.random.seed(42); np.random.shuffle(y)
-
+    x, y = prepare_dataset()
+    
+    # np.random.seed(42); np.random.shuffle(x)
+    # np.random.seed(42); np.random.shuffle(y)
 
     val_split = int(0.2 * x.shape[0])
     train_split = (x.shape[0] - val_split) // 2
@@ -187,3 +189,6 @@ if __name__ == "__main__":
     torch.random.manual_seed(42)
     
     fl.client.start_numpy_client("localhost:8080", client=PTMLPClient(split=args.split))
+    
+    # x, y = prepare_dataset()
+    # print(x)

@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 
+url = 'D:/test/fed_ml_flower_demo-master'
 def read_files():
   files = []
   for _,_, file in os.walk("."):
@@ -17,9 +18,9 @@ def get_data(files):
 
   for file in files:
     if dataframe is None:
-      dataframe = pandas.read_csv(f"/data/{file}", names=["time",file.replace(".csv","")])
+      dataframe = pandas.read_csv(f"{url}/data/{file}", names=["time",file.replace(".csv","")])
     else:
-      temporary_dataframe = pandas.read_csv(f"/data/{file}", names=["time",file.replace(".csv","")])
+      temporary_dataframe = pandas.read_csv(f"{url}/data/{file}", names=["time",file.replace(".csv","")])
       dataframe = pandas.merge(dataframe,temporary_dataframe)
       
   dataframe = dataframe[1:]
@@ -80,11 +81,26 @@ def draw_graph_Regression(X,Y):
   plt.plot(X,linear_model.predict(polynomial_features.fit_transform(X)),color="purple")
   plt.show()
   
-if __name__ == "__main__":
+def prepare_dataset():
+  NUMBER_OF_TRANSACTIONS_INDEX = 8
+  END_RANGE = NUMBER_OF_TRANSACTIONS_INDEX + 1
+  MARKET_PRICE_INDEX = 7
   files = read_files()
-  dataframe = get_data(files)
-  draw_plot(dataframe)
-  X,Y = get_XY(dataframe)
-  draw_graph_Linear(X,Y)
-  draw_graph_Regression(X,Y)
-  # pandas.read_csv("/data/hash-rate.csv")
+  dataframe_reg = get_data(files)
+  X=dataframe_reg.iloc[:, NUMBER_OF_TRANSACTIONS_INDEX:END_RANGE]
+  Y=dataframe_reg.iloc[:, MARKET_PRICE_INDEX]
+  return X,Y
+
+if __name__ == "__main__":
+  # data = pandas.read_csv(url + "/hash-rate.csv", engine="python", sep=',', encoding='latin-1')
+  files = read_files()
+  dataframe_reg = get_data(files)
+  # draw_plot(dataframe_reg)
+  # X,Y = get_XY(dataframe_reg)
+  # draw_graph_Linear(X,Y)
+  # draw_graph_Regression(X,Y)
+  # print(dataframe_reg)
+  x, y = prepare_dataset()
+  val_split = int(0.2 * x.shape[0])
+  train_split = (x.shape[0] - val_split) // 2
+  print(train_split)

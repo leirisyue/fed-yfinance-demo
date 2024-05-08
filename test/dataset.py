@@ -2,6 +2,9 @@ import yfinance
 import numpy
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import sklearn
+import sklearn.datasets
+import sklearn.metrics
 
 symbol="BTC-USD"
 start="2014-01-01"
@@ -18,8 +21,8 @@ def prepare_dataset():
 
     dataframe = yfinance.download(symbol,start,end)
 
-    dataframe.info()
-    dataframe.to_csv("btc-usd-2014-2024.csv")
+    # dataframe.info()
+    # dataframe.to_csv("btc-usd-2014-2024.csv")
     dataframe["Buy or Sell (Open)"] = numpy.where(dataframe["Open"].shift(-1)>dataframe["Open"],BUY,SELL)
     dataframe["Returns"]=dataframe["Adj Close"].pct_change()
 
@@ -28,11 +31,16 @@ def prepare_dataset():
     dataframe  = dataframe.dropna()
 
 
-    y=dataframe.iloc[:,INDEX_OF_RETURNS_COLUMN].values
-    x=dataframe.iloc[:,INDEX_OF_BUY_SELL_COLUMN_ADJ_CLOSE:INDEX_OF_RETURNS_COLUMN].values
+    y=dataframe.iloc[:,6].values
+    x=dataframe.iloc[:,1:4].values
 
     # X_train, X_test, Y_train, Y_test = train_test_split(X, Y)
 
     # return X_train, X_test, Y_train, Y_test
-    
     return x, y
+
+if __name__ == "__main__":
+    # x,y = prepare_dataset()
+    x, y = sklearn.datasets.load_digits(return_X_y=True)
+    print(x)
+    print(y)
