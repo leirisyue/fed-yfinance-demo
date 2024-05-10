@@ -186,4 +186,4 @@ if __name__ == "__main__":
 
     torch.random.manual_seed(42)
     
-    fl.client.start_numpy_client("localhost:8080", client=PTMLPClient(split=args.split))
+    fl.client.start_numpy_client("20.2.240.248:8080", client=PTMLPClient(split=args.split))
