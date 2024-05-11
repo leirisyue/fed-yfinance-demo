@@ -3,16 +3,16 @@
 https://github.com/leirisyue/fed-yfinance-demo.git
 ```
 
-### start server
+### Start server
 ```bash
 python -m pt_server -r 50
 ```
-### Start client alice
+### Start client 1
 ```bash
 python -m pt_client -s alice
 ```
 
-### Start client alice
+### Start client 2
 ```bash
 python -m pt_client -s bob
 ```
