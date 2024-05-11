@@ -1,4 +1,7 @@
-# fed-yfinance-demo
+# Crypto Data Science Kết hợp Federated Learning
+```bash
+https://github.com/leirisyue/fed-yfinance-demo.git
+```
 
 ### start server
 ```bash
